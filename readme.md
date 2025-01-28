@@ -9,7 +9,13 @@ The samples will be light on frameworks to reduce complexity. I decided to use [
 
 ## Design Patterns Covered
 
-This section showcases the capabilities of a single agent and highlights its use cases in different scenarios.
+This section showcases the capabilities of a single agent and highlights its use cases in different scenarios. 
+
+#### Why use Graphs for all examples?
+
+For most use-cases I'll be using [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/). Although, not required in some use-cases, I like to use it to maintain a consistent design pattern. The added benefits to list a few are: 
+  - Consistency across all agents 
+  - Adding workflow(s) at a later stage, lends itself well to ease in extensibility.
 
 #### Tooling - Using Asana
 - Demonstrates how an agent can integrate with third-party tools like Asana to automate task management and improve efficiency.

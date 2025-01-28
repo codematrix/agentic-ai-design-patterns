@@ -4,6 +4,9 @@ This repository contains a collection of simple agents designed to demonstrate v
 
 The samples will be light on frameworks to reduce complexity. I decided to use [Pydantic AI](https://ai.pydantic.dev/) for agentic development as it's lightweight and me the necessary building blocks that I need, without too much ceremony getting a basic agent running. 
 
+**Disclaimer**: I come from a C# background, so my Python skills might not be entirely up to par. Suggestions for improvements are more than welcome!
+
+
 ## Design Patterns Covered
 
 This section showcases the capabilities of a single agent and highlights its use cases in different scenarios.

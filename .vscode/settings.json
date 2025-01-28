@@ -1,0 +1,15 @@
+{    
+    "editor.fontSize": 14,    
+    "pylint.args": [
+        "--disable=trailing-whitespace",
+        "--disable=missing-docstring",
+        "--disable=consider-using-enumerate",
+        "--disable=broad-exception-caught",
+        "--disable=broad-exception-raised",
+        "--disable=line-too-long",
+        "--disable=invalid-name",
+        "--disable=redefined-outer-name",
+        "--disable=wrong-import-order",
+        "--disable=global-statement",
+    ]
+}

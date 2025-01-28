@@ -2,15 +2,20 @@
 
 This repository contains a collection of simple agents designed to demonstrate various design patterns in AI-driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these patterns effectively in their projects. 
 
-The samples will be light on frameworks to reduce complexity. I decided to use [Pydantic AI](https://ai.pydantic.dev/) for agent development, because it's lite and only gives me the necessary building blocks without too much ceremony.
+The samples will be light on frameworks to reduce complexity. I decided to use [Pydantic AI](https://ai.pydantic.dev/) for agentic development as it's lightweight and me the necessary building blocks that I need, without too much ceremony getting a basic agent running. 
 
 ## Design Patterns Covered
 
 This section showcases the capabilities of a single agent and highlights its use cases in different scenarios.
 
-#### Tooling - Using Asana Example
+#### Tooling - Using Asana
 - Demonstrates how an agent can integrate with third-party tools like Asana to automate task management and improve efficiency.
 - Example: Fetching tasks, creating assignments, or updating task statuses programmatically.
+- Features:
+  - Tool calling 
+  - steaming - console
+  - streaming - streamlit
+- **NOTE**: The Asana API is a mock and will use _sqlite_ to maintain states i.e. Projects and Tasks
 
 ## WORK IN PROGRESS SUBJECT TO CHANGE
 

@@ -13,17 +13,18 @@ This section showcases the capabilities of a single agent and highlights its use
 
 #### Why use Graphs for all examples?
 
-For most use-cases I'll be using [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/). Although, not required in some use-cases, I like to use it to maintain a consistent design pattern. The added benefits to list a few are: 
-  - Consistency across all agents 
-  - Adding workflow(s) at a later stage, lends itself well to ease in extensibility.
+For most use-cases I'll be using [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/). Although, not required in some use-cases, I like to use it to maintain a consistent design pattern. Here are a some of benefits just to list a few: 
+  - A consistency development across all agents. 
+  - Adding workflow(s) at a later stage in development, lends itself well to ease in extensibility.
 
-#### Tooling - Using Asana
-- Demonstrates how an agent can integrate with third-party tools like Asana to automate task management and improve efficiency.
+#### Single Agent (no graphs)
+- Demonstrates how a single agent can integrate with third-party tools like Asana to automate task management and improve efficiency.
 - Example: Fetching tasks, creating assignments, or updating task statuses programmatically.
 - Features:
   - Tool calling 
   - steaming - console
   - streaming - streamlit
+  - chat history
 - **NOTE**: The Asana API is a mock and will use _sqlite_ to maintain states i.e. Projects and Tasks
 
 ## WORK IN PROGRESS SUBJECT TO CHANGE

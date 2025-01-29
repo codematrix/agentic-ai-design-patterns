@@ -1,5 +1,5 @@
 # NOTES:
-# This simple agent basically uses the Asana API to manage tasks and projects by means of Tools.
+# This is simple single agent using a mock Asana API to manage tasks and projects by means of Tools.
 
 import os
 import sys
@@ -34,8 +34,7 @@ async def main_async():
             f"The current date is: {datetime.now().date()}"
         )
     )
-    
-    # load for a database
+        
     message_history = MessageHistory()
     Prompt.prompt_suffix = "> "
      

@@ -1,7 +1,9 @@
 # NOTES:
-# This simple agent basically uses the Asana API to manage tasks and projects by means of Tools.
+# This is simple single agent using a mock Asana API to manage tasks and projects by means of Tools.
 # This is a streamlit version of the console.py. 
-# To run this in streamlit execute the following: streamlit run streamlit_ui.py
+# To run this in streamlit 
+#   - navigate to the directory where this file is located  
+#   - execute the following: streamlit run streamlit_ui.py
 
 import os
 import sys

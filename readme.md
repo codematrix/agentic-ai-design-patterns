@@ -1,18 +1,18 @@
 # AI Agentic Design Patterns
 
-This repository showcases a collection of simple AI agents designed to demonstrate various design patterns in AI-driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these concepts effectively in their projects.
+This repository showcases a collection of simple AI agents designed to demonstrate various design patterns in `AI Agentic` driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these concepts effectively in their projects.
 
-To keep things simple and reduce unnecessary complexity, the examples will minimize framework dependencies. We've chosen [Pydantic AI](https://ai.pydantic.dev/) for our agentic development as it is both lightweight and provides the essential building blocks for building production-quality AI Agents.
+To keep things simple and to reduce unnecessary complexity, the examples will minimize framework dependencies. We've chosen [Pydantic AI](https://ai.pydantic.dev/) for our agentic development as it is both lightweight and provides the essential building blocks for building production-quality AI Agents.
 
-All use cases (except for one) leverages [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/) to manage agent workflows. Using graph-based workflows from the outset is a good best practice for several reasons:
+All use cases (except for one) leverages [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/) to manage agentic workflows. Using `graph-based workflows` from the outset is a good **best practice** for several reasons:
 
 - Most agentic workflows involve multiple agents. A graph-based workflow approach provides a consistent foundational pattern, making it easier to understand and maintain across the development team.  
-- Introducing workflows early in the SDLC makes it significantly easier when extensibility and refactoring are required.
+- Introducing graph-based workflows early in the SDLC makes it significantly easier when extensibility and refactoring are required.
 
 ### Considerations
 
 #### Use-Cases  
-The example scenarios in this repository are intentionally contrived for simplicity. The goal is to eliminate unnecessary distractions from complicated use-cases and focus purely on the topics at hand - **AI Agentic Design Patterns**.
+The example scenarios in this repository are contrived and intentionally constructed for simplicity. The goal is to eliminate unnecessary distractions from complicated use-cases and focus purely on the topics at hand - **AI Agentic Design Patterns**.
 
 #### Disclaimer  
 I come from a C# background, so my Python skills may not be perfect. Suggestions for improvements are always welcome!
@@ -20,7 +20,7 @@ I come from a C# background, so my Python skills may not be perfect. Suggestions
 
 ## Design Patterns Covered
 
-This section highlights various design patterns commonly used in AI agent development. For a deeper understanding of when and why to apply each pattern, refer to the following articles:
+This section highlights various design patterns commonly used in AI agentic development. For a deeper understanding of why and when to apply a particular design pattern, refer to the following articles:
 - [Building effective agents](https://www.anthropic.com/research/building-effective-agents)
 - [Multi-agent Systems](https://langchain-ai.github.io/langgraph/concepts/multi_agent/)
 
@@ -79,7 +79,6 @@ This section highlights various design patterns commonly used in AI agent develo
    git clone https://github.com/codematrix/agent-design-patterns.git
    ```
 2. Explore each design pattern example in the respective directories.
-3. Follow the instructions in each example's README to set up and run the agent.
 
 ## Requirements
 - Python 3.13.1
@@ -95,7 +94,6 @@ pip install -r requirements.txt
 We provided a sample **.env.readme** file. Please copy and create your own **.env** file and update the values using your API keys. 
 If you use different model providers, then make sure to update agents used in the examples. 
 If you're not using **logfire**, you can exclude those key/value pairs.
-
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request to suggest improvements or add new patterns.

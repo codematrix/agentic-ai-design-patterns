@@ -90,7 +90,7 @@ Install the dependencies:
 pip install -r requirements.txt
 ```
 
-## Create and update .env file
+## Create and update the .env file
 
 We provided a sample **.env.readme** file. Please create your own **.env** file and update the values using your API keys. 
 If you have different model providers, then make sure to update agents used in the examples. 

@@ -90,10 +90,11 @@ Install the dependencies:
 pip install -r requirements.txt
 ```
 
-## .env file
+## Create and update .env file
 
-We provided a sample **.env.readme** file. Please update the values to using
-your API keys. If you have different model providers, then make sure to update the agents using that depend on these API keys. If you not using logfire, you can exclude those key/value pairs.
+We provided a sample **.env.readme** file. Please create your own **.env** file and update the values using your API keys. 
+If you have different model providers, then make sure to update agents used in the examples. 
+If you not using **logfire**, you can exclude those key/value pairs.
 
 
 ## Contributing

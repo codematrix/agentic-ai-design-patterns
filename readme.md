@@ -1,18 +1,18 @@
-# Agentic Design Patterns
+# AI Agentic Design Patterns
 
 This repository showcases a collection of simple AI agents designed to demonstrate various design patterns in AI-driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these concepts effectively in their projects.
 
-To keep things lightweight and reduce complexity, the examples will minimize framework dependencies. We've chosen [Pydantic AI](https://ai.pydantic.dev/) for agentic development because it is both lightweight and provides the essential building blocks for building production-quality AI agents.
+To keep things simple and reduce unnecessary complexity, the examples will minimize framework dependencies. We've chosen [Pydantic AI](https://ai.pydantic.dev/) for our agentic development as it is both lightweight and provides the essential building blocks for building production-quality AI Agents.
 
-Additionally, all use cases (except one) leverage [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/) to structure agent workflows. Using graph-based workflows from the outset is a good design practice for several reasons:
+All use cases (except for one) leverages [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/) to manage agent workflows. Using graph-based workflows from the outset is a good best practice for several reasons:
 
-- Most agentic workflows involve multiple agents. A graph-based approach provides a consistent foundational pattern, making it easier to understand and maintain across development teams.  
-- Introducing workflows early in the SDLC makes it significantly easier when extensibility is a priority.
+- Most agentic workflows involve multiple agents. A graph-based workflow approach provides a consistent foundational pattern, making it easier to understand and maintain across the development team.  
+- Introducing workflows early in the SDLC makes it significantly easier when extensibility and refactoring are required.
 
 ### Considerations
 
 #### Use-Cases  
-The example scenarios in this repository are intentionally simple—arguably contrived and even useless. That’s the point. The goal is to eliminate unnecessary distractions and focus purely on **Agent Design Patterns**.
+The example scenarios in this repository are intentionally contrived for simplicity. The goal is to eliminate unnecessary distractions from complicated use-cases and focus purely on the topics at hand - **AI Agentic Design Patterns**.
 
 #### Disclaimer  
 I come from a C# background, so my Python skills may not be perfect. Suggestions for improvements are always welcome!
@@ -28,17 +28,17 @@ This section highlights various design patterns commonly used in AI agent develo
 - Demonstrates how a single agent can integrate with third-party tools like Asana to automate project and task management.
 - Features:
   - Tool calling 
-  - console (with streaming)
-  - streamlit (with streaming)
+  - console app (with streaming)
+  - streamlit app (with streaming)
   - chat history
-- **Note**: For sake of demonstration, the Asana API is a mock and uses _sqlite_ to maintain states i.e. Projects and Tasks
+- **Note**: For sake of demonstration, the Asana API is a mock and utilizes _sqlite_ to maintain states i.e. Projects and Tasks
 
 ### Prompt Chaining Workflow
-- Demonstrates how to use prompt chaining - taking part or in whole, the response of a previous model and using it as input to the next model. 
+- Demonstrates how to use prompt chaining - taking part or in whole, the response of a previous agent and using it as input to the next agent in the chain.
 - Use-case: 
-  - Obtain a validate city from the user. If a valid city was not used, the end and with no results.
-  - Once a validate city was obtain, get details about the city i.e. Regional information and a summarized history about the city. 
-  - **Note**: Obviously, this use-case can be achieved using a single agent with a one-shot prompt. As stated before, the objective is to demonstrate the design pattern and keeping the use-case as simple as possible for demonstration purposes.
+  - Obtain a validate city from the user. If a valid city was not provided, the end and with no results.
+  - Once a validate city was provided, get details about the city i.e. Regional information and a summarized history about the city. 
+  - **Note**: Obviously, this use-case can be achieved using a single agent with a **one-shot** prompt. As stated before, the objective is to demonstrate the design pattern and keeping the use-case as simple as possible for demonstration purposes.
 - Features:
   - Multi-Agent
   - Graphs

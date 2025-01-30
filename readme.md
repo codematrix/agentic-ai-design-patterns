@@ -80,7 +80,7 @@ This section highlights various design patterns commonly used in AI agentic deve
    ```
 2. Explore each design pattern example in the respective directories.
 
-## Requirements
+### Requirements
 - Python 3.13.1
 - Required libraries listed in `requirements.txt`
 
@@ -89,14 +89,14 @@ Install the dependencies:
 pip install -r requirements.txt
 ```
 
-## Create and update the **.env** file
+### Create and update the **.env** file
 
 We provided a sample **.env.readme** file. Please copy and create your own **.env** file and update the values using your API keys. 
 If you use different model providers, then make sure to update agents used in the examples. 
 If you're not using **logfire**, you can exclude those key/value pairs.
 
 ## Contributing
-Contributions are welcome! Please open an issue or submit a pull request to suggest improvements or add new patterns.
+Contributions are welcome! Please open an issue or submit a pull request to suggest improvements or add new design patterns.
 
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for details.

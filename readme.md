@@ -1,8 +1,8 @@
-# AI Agentic Design Patterns
+# Agentic AI Design Patterns
 
-This repository showcases a collection of simple AI agents designed to demonstrate various design patterns in `AI Agentic` driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these concepts effectively in their projects.
+This repository showcases a collection of simple agents designed to demonstrate various design patterns in `Agentic AI` driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these concepts effectively in their projects.
 
-To keep things simple and to reduce unnecessary complexity, the examples will minimize framework dependencies. We've chosen [Pydantic AI](https://ai.pydantic.dev/) for our agentic development as it is both lightweight and provides the essential building blocks for building production-quality AI Agents.
+To keep things simple and to reduce unnecessary complexity, the examples will minimize framework dependencies. We've chosen [Pydantic AI](https://ai.pydantic.dev/) for our agentic AI development as it is both lightweight and provides the essential building blocks for building production-quality `Agentic AI workflows`
 
 All use cases (except for one) leverages [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/) to manage agentic workflows. Using `graph-based workflows` from the outset is a good **best practice** for several reasons:
 
@@ -20,7 +20,7 @@ I come from a C# background, so my Python skills may not be perfect. Suggestions
 
 ## Design Patterns Covered
 
-This section highlights various design patterns commonly used in AI agentic development. For a deeper understanding of why and when to apply a particular design pattern, refer to the following articles:
+This section highlights various design patterns commonly used in agentic AI development. For a deeper understanding of why and when to apply a particular design pattern, refer to the following articles:
 - [Building effective agents](https://www.anthropic.com/research/building-effective-agents)
 - [Multi-agent Systems](https://langchain-ai.github.io/langgraph/concepts/multi_agent/)
 

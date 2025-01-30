@@ -155,4 +155,3 @@ async def main_async():
 if __name__ == "__main__":
     os.system("cls")
     asyncio.run(main_async())
-    

@@ -1,4 +1,4 @@
-# Agents Design Patterns
+# Agentic Design Patterns
 
 This repository showcases a collection of simple AI agents designed to demonstrate various design patterns in AI-driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these concepts effectively in their projects.
 

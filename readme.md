@@ -9,9 +9,9 @@ Additionally, all use cases (except one) leverage [Pydantic Graphs](https://ai.p
 - Most agentic workflows involve multiple agents. A graph-based approach provides a consistent foundational pattern, making it easier to understand and maintain across development teams.  
 - Introducing workflows early in the SDLC makes it significantly easier when extensibility is a priority.
 
-### Notes
+### Considerations
 
-#### Use Cases  
+#### Use-Cases  
 The example scenarios in this repository are intentionally simple—arguably contrived and even useless. That’s the point. The goal is to eliminate unnecessary distractions and focus purely on **Agent Design Patterns**.
 
 #### Disclaimer  
@@ -36,7 +36,10 @@ This section highlights various design patterns commonly used in AI agent develo
 ### Prompt Chaining Workflow
 - Demonstrates how to use prompt chaining - taking part or in whole, the response of a previous model and using it as input to the next model. 
 - Use-case: 
-
+  - Obtain a validate city from the user. If a valid city was not used, the end and with no results.
+  - Once a validate city was obtain, get details about the city i.e. Regional information and a summarized history about the city. 
+- Note: Obviously, this use-case can be achieved by using a single agent with a one-shot prompt, but as stated before, the objective is to demonstrate prompt chaining across multiple agents. 
+- Workflow
 <p style="margin-left: 40px;">
   <img src="resources/prompt_chaining.png" alt="AI Agent" width="500">
 </p>

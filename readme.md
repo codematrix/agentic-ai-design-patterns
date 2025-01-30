@@ -94,7 +94,7 @@ pip install -r requirements.txt
 
 We provided a sample **.env.readme** file. Please copy and create your own **.env** file and update the values using your API keys. 
 If you use different model providers, then make sure to update agents used in the examples. 
-If you not using **logfire**, you can exclude those key/value pairs.
+If you're not using **logfire**, you can exclude those key/value pairs.
 
 
 ## Contributing

@@ -1,4 +1,4 @@
-# Agents with Design Patterns
+# Agents Design Patterns
 
 This repository showcases a collection of simple AI agents designed to demonstrate various design patterns in AI-driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these concepts effectively in their projects.
 
@@ -41,7 +41,7 @@ This section highlights various design patterns commonly used in AI agent develo
 - Note: Obviously, this use-case can be achieved by using a single agent with a one-shot prompt, but as stated before, the objective is to demonstrate prompt chaining across multiple agents. 
 - Workflow
 <p style="margin-left: 40px;">
-  <img src="resources/prompt_chaining.png" alt="AI Agent" width="500">
+  <img src="resources/prompt_chaining.png" alt="AI Agent" width="600">
 </p>
 
 
@@ -70,7 +70,7 @@ This section highlights various design patterns commonly used in AI agent develo
 ## How to Use
 1. Clone this repository: 
    ```bash
-   git clone https://github.com/yourusername/simple-agents-design-patterns.git
+   git clone https://github.com/codematrix/agent-design-patterns.git
    ```
 2. Explore each design pattern example in the respective directories.
 3. Follow the instructions in each example's README to set up and run the agent.

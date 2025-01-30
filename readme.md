@@ -1,25 +1,31 @@
 # Agents with Design Patterns
 
-This repository contains a collection of simple agents designed to demonstrate various design patterns in AI-driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these patterns effectively in their projects. 
+This repository showcases a collection of simple AI agents designed to demonstrate various design patterns in AI-driven workflows. Each pattern is implemented with practical examples and detailed explanations to help developers and researchers understand and apply these concepts effectively in their projects.
 
-The samples will be light on frameworks to reduce complexity. I decided to use [Pydantic AI](https://ai.pydantic.dev/) for agentic development as it's lightweight and me the necessary building blocks that I need, without too much ceremony getting a basic agent running. 
+To keep things lightweight and reduce complexity, the examples will minimize framework dependencies. We've chosen [Pydantic AI](https://ai.pydantic.dev/) for agentic development because it is both lightweight and provides the essential building blocks for building production-quality AI agents.
 
-**Disclaimer**: I come from a C# background, so my Python skills might not be entirely up to par. Suggestions for improvements are more than welcome!
+Additionally, all use cases (except one) leverage [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/) to structure agent workflows. Using graph-based workflows from the outset is a good design practice for several reasons:
+
+- Most agentic workflows involve multiple agents. A graph-based approach provides a consistent foundational pattern, making it easier to understand and maintain across development teams.  
+- Introducing workflows early in the SDLC makes it significantly easier when extensibility is a priority.
+
+### Notes
+
+#### Use Cases  
+The example scenarios in this repository are intentionally simple—arguably contrived and even useless. That’s the point. The goal is to eliminate unnecessary distractions and focus purely on **Agent Design Patterns**.
+
+#### Disclaimer  
+I come from a C# background, so my Python skills may not be perfect. Suggestions for improvements are always welcome!
 
 
 ## Design Patterns Covered
 
-This section showcases the capabilities of a single agent and highlights its use cases in different scenarios. 
+This section highlights various design patterns commonly used in AI agent development. For a deeper understanding of when and why to apply each pattern, refer to the following articles:
+- [Building effective agents](https://www.anthropic.com/research/building-effective-agents)
+- [Multi-agent Systems](https://langchain-ai.github.io/langgraph/concepts/multi_agent/)
 
-#### Why use Graphs for all examples?
-
-For most use-cases I'll be using [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/). Although, not required in some use-cases, I like to use it to maintain a consistent design pattern. Here are a some of benefits just to list a few: 
-  - A consistency development across all agents. 
-  - Adding workflow(s) at a later stage in development, lends itself well to ease in extensibility.
-
-#### Single Agent (no graphs)
-- Demonstrates how a single agent can integrate with third-party tools like Asana to automate task management and improve efficiency.
-- Example: Fetching tasks, creating assignments, or updating task statuses programmatically.
+### Single Agent (no graphs)
+- Demonstrates how a single agent can integrate with third-party tools like Asana to automate project and task management.
 - Features:
   - Tool calling 
   - steaming - console
@@ -27,35 +33,36 @@ For most use-cases I'll be using [Pydantic Graphs](https://ai.pydantic.dev/api/p
   - chat history
 - **NOTE**: The Asana API is a mock and will use _sqlite_ to maintain states i.e. Projects and Tasks
 
+### Prompt Chaining Workflow
+- Demonstrates how to use prompt chaining - taking part or in whole, the response of a previous model and using it as input to the next model. 
+- Use-case: 
+
+<p style="margin-left: 40px;">
+  <img src="resources/prompt_chaining.png" alt="AI Agent" width="500">
+</p>
+
+
+
 ## WORK IN PROGRESS SUBJECT TO CHANGE
 
-#### Prompt Chaining Workflow
-- A structured workflow where outputs from one prompt become inputs for the next step, enabling multi-step reasoning or task execution.
-- Example: A task planning agent that generates subtasks from a high-level goal and then provides detailed execution plans for each subtask.
 
 #### Routing Workflow (Supervisor Role)
 - An agent acts as a router, directing incoming tasks to specialized sub-agents or workflows.
-- Example: Categorizing customer support requests and assigning them to the appropriate department.
 
 #### Routing Parallelization (Supervisor Role)
 - Similar to the routing workflow, but tasks are distributed and processed in parallel by multiple sub-agents.
-- Example: Distributing multiple language translation requests to agents specializing in specific languages.
 
 #### Orchestrator-Workers Workflow (Supervisor Role)
 - An orchestrator agent coordinates multiple worker agents to perform tasks collaboratively, ensuring dependencies are resolved and tasks are completed efficiently.
-- Example: A research agent orchestrating data collection, analysis, and reporting by worker agents.
 
 #### Evaluator-Optimizer Workflow
 - An evaluator agent assesses the output of other agents and provides feedback, which is then used by an optimizer agent to improve results iteratively.
-- Example: A code generation agent whose outputs are reviewed by an evaluator for correctness, followed by optimization for performance.
 
 #### Human-in-the-Loop (HITL) Workflow
 - Combines agent autonomy with human oversight, allowing humans to review, validate, or intervene in the agent's decision-making process.
-- Example: A content generation agent that drafts articles, reviewed by a human editor for quality assurance.
 
 #### Long-Running with HITL Workflow - Hydrating/Dehydrating
 - Enables agents to handle long-running tasks with intermittent human interactions, while maintaining state persistence through hydration (storing state) and dehydration (resuming state).
-- Example: A legal document review agent that pauses for human feedback at critical decision points and resumes processing afterward.
 
 ## How to Use
 1. Clone this repository: 

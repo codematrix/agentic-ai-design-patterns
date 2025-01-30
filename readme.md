@@ -28,8 +28,8 @@ This section highlights various design patterns commonly used in AI agent develo
 - Demonstrates how a single agent can integrate with third-party tools like Asana to automate project and task management.
 - Features:
   - Tool calling 
-  - steaming - console
-  - streaming - streamlit
+  - console (with streaming)
+  - streamlit (with streaming)
   - chat history
 - **NOTE**: The Asana API is a mock and will use _sqlite_ to maintain states i.e. Projects and Tasks
 
@@ -38,7 +38,13 @@ This section highlights various design patterns commonly used in AI agent develo
 - Use-case: 
   - Obtain a validate city from the user. If a valid city was not used, the end and with no results.
   - Once a validate city was obtain, get details about the city i.e. Regional information and a summarized history about the city. 
-- Note: Obviously, this use-case can be achieved by using a single agent with a one-shot prompt, but as stated before, the objective is to demonstrate prompt chaining across multiple agents. 
+  - **Note**: Obviously, this use-case can be achieved using a single agent with a one-shot prompt. As stated before, the objective is to demonstrate the design pattern and keeping the use-case as simple as possible for demonstration purposes.
+- Features:
+  - Multi-Agent
+  - Graphs
+  - States
+  - Result Type
+  - Prompt Chaining
 - Workflow
 <p style="margin-left: 40px;">
   <img src="resources/prompt_chaining.png" alt="AI Agent" width="600">

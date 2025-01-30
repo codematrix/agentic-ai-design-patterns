@@ -31,7 +31,7 @@ This section highlights various design patterns commonly used in AI agent develo
   - console (with streaming)
   - streamlit (with streaming)
   - chat history
-- **NOTE**: The Asana API is a mock and will use _sqlite_ to maintain states i.e. Projects and Tasks
+- **Note**: For sake of demonstration, the Asana API is a mock and uses _sqlite_ to maintain states i.e. Projects and Tasks
 
 ### Prompt Chaining Workflow
 - Demonstrates how to use prompt chaining - taking part or in whole, the response of a previous model and using it as input to the next model. 

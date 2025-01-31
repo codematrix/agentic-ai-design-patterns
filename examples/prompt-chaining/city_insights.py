@@ -22,7 +22,7 @@ open_ai_model = OpenAIModel("gpt-4o-mini")
 groq_model_llama = GroqModel("llama-3.3-70b-versatile")
 groq_model_mixtral = GroqModel("mixtral-8x7b-32768")
 
-class CityDetails(BaseModel):
+class CityDetailsResponse(BaseModel):
     city: Optional[str] = Field(default=None, description="The city yield from the prompt")
     country: Optional[str] = Field(default=None, description="The country where the city resides")
     region: Optional[str] = Field(default=None, description="The region where the city resides")    
@@ -30,22 +30,22 @@ class CityDetails(BaseModel):
     region_capital: Optional[str] = Field(default=None, description="The capital city for the country")    
     
 class CityDetailResponse(BaseModel):
-    city_details: Optional[CityDetails] = None
+    city_details: Optional[CityDetailsResponse] = None
     summarized_history: Optional[str] = None
 
-class CityDetailState(BaseModel):
+class CityInsightsState(BaseModel):
     prompt: Optional[str] = None    
-    city_details: Optional[CityDetails] = None
+    city_details: Optional[CityDetailsResponse] = None
     brief_history: Optional[str] = None
     summarized: Optional[str] = None
     usage: Usage = Usage()
 
-class CityDetailService:
-    class GetCityDetails(BaseNode[CityDetailState]):
+class CityInsights:
+    class CityDetails(BaseNode[CityInsightsState]):
         def __init__(self):
             self.agent = Agent(
                 model=open_ai_model,      
-                result_type=CityDetails,                
+                result_type=CityDetailsResponse,                
                 system_prompt=("""
                     You're an assistant that provides regional details about a city.
 
@@ -58,7 +58,7 @@ class CityDetailService:
                 """)
             ) 
                 
-        async def run(self, ctx: GraphRunContext[CityDetailState]) -> CityDetailService.GetBriefHistory | End[None]:
+        async def run(self, ctx: GraphRunContext[CityInsightsState]) -> CityInsights.CityHistory | End[None]:
             capital_result = await self.agent.run(
                 ctx.state.prompt,
                 usage=ctx.state.usage                
@@ -69,16 +69,16 @@ class CityDetailService:
             if ctx.state.city_details.city is None:
                 return End(None)
             
-            return CityDetailService.GetBriefHistory()  
+            return CityInsights.CityHistory()  
 
-    class GetBriefHistory(BaseNode[CityDetailState]):
+    class CityHistory(BaseNode[CityInsightsState]):
         def __init__(self):
             self.agent = Agent(
                 model=groq_model_llama,
                 system_prompt="You're an assistant that provides history about a city."             
             )       
             
-        async def run(self, ctx: GraphRunContext[CityDetailState]) -> CityDetailService.Summarize:
+        async def run(self, ctx: GraphRunContext[CityInsightsState]) -> CityInsights.SummarizeResult:
             capital_history_result = await self.agent.run(
                 f"Provide a brief history for the city '{ctx.state.city_details.city}'",
                 usage=ctx.state.usage                
@@ -86,16 +86,16 @@ class CityDetailService:
 
             ctx.state.brief_history = capital_history_result.data         
                                
-            return CityDetailService.Summarize()
+            return CityInsights.SummarizeResult()
 
-    class Summarize(BaseNode[CityDetailState]):
+    class SummarizeResult(BaseNode[CityInsightsState]):
         def __init__(self):
             self.agent = Agent(                
                 model=groq_model_mixtral,
                 system_prompt="You're an assistant that streamlines large text in a summarized way." 
             )
         
-        async def run(self, ctx: GraphRunContext[CityDetailState]) -> End[None]:
+        async def run(self, ctx: GraphRunContext[CityInsightsState]) -> End[None]:
             summarized_result = await self.agent.run(
                 f"Streamline and summarize this text: '{ctx.state.brief_history}'",
                 usage=ctx.state.usage          
@@ -107,16 +107,16 @@ class CityDetailService:
                 
     def __init__(self):
         self.graph = Graph(nodes=[
-            CityDetailService.GetCityDetails, 
-            CityDetailService.GetBriefHistory, 
-            CityDetailService.Summarize
+            CityInsights.CityDetails, 
+            CityInsights.CityHistory, 
+            CityInsights.SummarizeResult
         ])
     
     async def get_details_async(self, prompt: str) -> CityDetailResponse:
-        graphState = CityDetailState()
+        graphState = CityInsightsState()
         graphState.prompt = prompt
         
-        await self.graph.run(CityDetailService.GetCityDetails(), state=graphState)
+        await self.graph.run(CityInsights.CityDetails(), state=graphState)
         return CityDetailResponse(
             city_details=graphState.city_details if graphState.city_details else None,  
             summarized_history=graphState.summarized
@@ -125,7 +125,7 @@ class CityDetailService:
 async def main_async():
     Prompt.prompt_suffix = "> "    
     
-    city_service = CityDetailService()
+    city_service = CityInsights()
                 
     while True:
         print(Fore.RESET)

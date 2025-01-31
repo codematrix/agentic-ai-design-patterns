@@ -28,7 +28,7 @@ This section highlights various design patterns commonly used in agentic AI deve
 - Demonstrates how a single agent can integrate with third-party tools like Asana to automate project and task management.
 - Features:
   - Tool calling 
-  - console app (with streaming)
+  - console app (with streaming) 
   - streamlit app (with streaming)
   - chat history
 - **Note**: For sake of demonstration, the Asana API is a mock and utilizes _sqlite_ to maintain states i.e. Projects and Tasks

@@ -46,9 +46,9 @@ This section highlights various design patterns commonly used in agentic AI deve
   - Result Type
   - Prompt Chaining
 - Workflow
-<!-- <p style="margin-left: 40px;">
-  <img src="resources/prompt_chaining.png" alt="AI Agent" width="600">
-</p> -->
+<p style="margin-left: 40px;">
+  <img src="resources/prompt_chaining.png" width="600">
+</p>
 
 
 

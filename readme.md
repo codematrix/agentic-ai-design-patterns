@@ -35,8 +35,9 @@ This section highlights various design patterns commonly used in agentic AI deve
 - Workflow
 <p style="margin-left: 40px;">
   <img src="resources/full_autonomous.png" width="600">
-</p>   
-- **Note**: For sake of demonstration, the Asana API is a mock and utilizes _sqlite_ to maintain states i.e. Projects and Tasks
+</p>  
+ 
+**Note**: For sake of demonstration, the Asana API is a mock and utilizes _sqlite_ to maintain states i.e. Projects and Tasks
 
 ### Prompt Chaining Workflow
 - Demonstrates how to use prompt chaining - taking part or in whole, the response of a previous agent and using it as input to the next agent in the chain.

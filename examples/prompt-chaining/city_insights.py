@@ -34,7 +34,7 @@ class CityDetailResponse(BaseModel):
     summarized_history: Optional[str] = None
 
 class CityInsightsState(BaseModel):
-    prompt: Optional[str] = None    
+    prompt: Optional[str] = None
     city_details: Optional[CityDetailsResponse] = None
     brief_history: Optional[str] = None
     summarized: Optional[str] = None

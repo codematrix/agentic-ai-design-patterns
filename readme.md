@@ -24,13 +24,18 @@ This section highlights various design patterns commonly used in agentic AI deve
 - [Building effective agents](https://www.anthropic.com/research/building-effective-agents)
 - [Multi-agent Systems](https://langchain-ai.github.io/langgraph/concepts/multi_agent/)
 
-### Single Agent (no graphs)
-- Demonstrates how a single agent can integrate with third-party tools like Asana to automate project and task management.
+### Fully Autonomous - Single Agent (no graphs)
+- Demonstrates how a single agent can seamlessly integrate with third-party tools, such as Asana, to automate project and task management. The agent's model is allowed to operate autonomously, provided it has the appropriate tools to perform its tasks effectively.
 - Features:
+  - Fully autonomous operation
   - Tool calling 
   - console app (with streaming) 
   - streamlit app (with streaming)
   - chat history
+- Workflow
+<p style="margin-left: 40px;">
+  <img src="resources/full_autonomous.png" width="600">
+</p>   
 - **Note**: For sake of demonstration, the Asana API is a mock and utilizes _sqlite_ to maintain states i.e. Projects and Tasks
 
 ### Prompt Chaining Workflow

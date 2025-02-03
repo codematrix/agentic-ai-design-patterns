@@ -27,11 +27,11 @@ This section highlights various design patterns commonly used in agentic AI deve
 ### [Fully Autonomous](examples/full_autonomous) - Single Agent (no graphs)
 - Demonstrates how a single agent can seamlessly integrate with third-party tools, such as Asana, to automate project and task management. The agent's model is allowed to operate **Full Autonomously**, provided it has the appropriate tools to perform its tasks effectively.
 - Features:
-  - Fully autonomous operation
+  - Fully autonomous operation (planning)
   - Tool calling 
+  - chat history (memory)
   - console app (with streaming) 
-  - streamlit app (with streaming)
-  - chat history
+  - streamlit app (with streaming)  
 - Workflow
 <p style="margin-left: 40px;">
   <img src="resources/full_autonomous.png" width="600">

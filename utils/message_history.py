@@ -44,8 +44,8 @@ class MessageHistory:
             parts = item.parts.copy()
             for part in parts:
                 if part.part_kind == part_kind:
-                    item.parts.remove(part)        
-                
+                    item.parts.remove(part)
+                                    
         return self
 
     def get_all_messages(self) -> List[ModelMessage]:

@@ -78,14 +78,12 @@ This section highlights various design patterns commonly used in agentic AI deve
 
 
 ### [Supervisor](examples/supervisor) - Single Agent using other Agents as Tools (no graphs)
-????
-- Demonstrates how to build a call center chat application using a Supervisor-based single agent design pattern but uses other agents as Tools in it's reasoning cycle. Similar to the Fully Autonomous agent noted above. 
+
+- Demonstrates how to build a call center chat application using a Supervisor-based single-agent design pattern, where other agents function as tools within its reasoning cycle. This approach is similar to the Fully Autonomous agent mentioned earlier.
 - Use Case:
-  - Develop a chat application that allows users to ask general questions, whether or not 
-    they  are related to the company's services.  
-  - The Supervisor agent receives the initial user query and determines the plan of actions
-    to take to properly response back to the user.
-  - Use the appropriate Specialist tools to handle the user's request
+  - Develop a chat application that allows users to ask general questions, regardless of whether they relate to the company's services.
+  - The Supervisor agent receives the user's query and formulates a plan of action to provide an appropriate response.
+  - Leverage Specialist tools as needed to process and address the user's request effectively.
 - Features:
   - Supervisor (planning)
   - Tool calling (via agents)

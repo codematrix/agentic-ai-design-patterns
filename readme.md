@@ -34,7 +34,7 @@ This section highlights various design patterns commonly used in agentic AI deve
   - streamlit app (with streaming)  
 - Workflow
 <p style="margin-left: 40px;">
-  <img src="resources/full_autonomous.png" width="600">
+  <img src="resources/full_autonomous.png" width="800">
 </p>  
 
 **Note**: For sake of demonstration, the Asana API is a mock and utilizes _sqlite_ to maintain states i.e. Projects and Tasks
@@ -53,7 +53,7 @@ This section highlights various design patterns commonly used in agentic AI deve
   - Prompt Chaining
 - Workflow
 <p style="margin-left: 40px;">
-  <img src="resources/prompt_chaining.png" width="600">
+  <img src="resources/prompt_chaining.png" width="800">
 </p>
 
 ### [Supervisor](examples/supervisor) - Multi-Agent
@@ -73,7 +73,7 @@ This section highlights various design patterns commonly used in agentic AI deve
   - Result Type    
 - Workflow
 <p style="margin-left: 40px;">
-  <img src="resources/supervisor_multi_agent.png" width="600">
+  <img src="resources/supervisor_multi_agent.png" width="800">
 </p>
 
 
@@ -91,7 +91,7 @@ This section highlights various design patterns commonly used in agentic AI deve
   - States  
 - Workflow
 <p style="margin-left: 40px;">
-  <img src="resources/supervisor_single_agent_with_tools.png" width="600">
+  <img src="resources/supervisor_single_agent_with_tools.png" width="800">
 </p>
 
 ## WORK IN PROGRESS SUBJECT TO CHANGE

@@ -39,6 +39,15 @@ class MessageHistory:
             f"Expected one of: {', '.join([t.__name__ for t in model_request_parts + model_response_parts])}."
         )
 
+    def remove_part_kind(self, part_kind:str) -> Self:
+        for item in self.__messages:
+            parts = item.parts.copy()
+            for part in parts:
+                if part.part_kind == part_kind:
+                    item.parts.remove(part)        
+                
+        return self
+
     def get_all_messages(self) -> List[ModelMessage]:
         return self.__messages
 

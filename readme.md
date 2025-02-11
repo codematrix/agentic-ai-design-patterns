@@ -56,13 +56,27 @@ This section highlights various design patterns commonly used in agentic AI deve
   <img src="resources/prompt_chaining.png" width="600">
 </p>
 
+### [Supervisor (multi-agent)](examples/supervisor)
+- Demonstrates how to create a call centre chat app using a Supervisor - multi-agent design pattern. This design pattern lends itself well, whereby enforcing the single-responsibility-principal (SRP).
+- Use-case: 
+    - Create a chat app that allows users to ask general questions, regardless if the questions are related to our services or not.  
+  - The Supervisor obtains the initial user prompt and decides which Specialist to route the user's prompt too.
+  - If no Specialist can handle the request, the Supervisor will response back to the user politely.
+  - If a Specialist can handle the response, then route the final response back to the Supervisor, which completes graph cycle.
+- Features:
+  - Multi-Agent
+  - Graphs
+  - States
+  - History
+  - Result Type    
+- Workflow
+<p style="margin-left: 40px;">
+  <img src="resources/supervisor_multi_agent.png" width="600">
+</p>
 
 
 ## WORK IN PROGRESS SUBJECT TO CHANGE
 
-
-#### Routing Workflow (Supervisor Role)
-- An agent acts as a router, directing incoming tasks to specialized sub-agents or workflows.
 
 #### Routing Parallelization (Supervisor Role)
 - Similar to the routing workflow, but tasks are distributed and processed in parallel by multiple sub-agents.

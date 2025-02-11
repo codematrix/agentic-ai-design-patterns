@@ -1,5 +1,22 @@
 # NOTES:
-# TODO: ???
+# In this example we are using a supervisor multi-agent design pattern.
+# We have a supervisor that delegates requests to specialist that can the user's query
+# If specialist can handle the query, the supervisor will provide a general response back to the user
+#
+# Issuing with shared history across multi-agent using Pydantic Agents. The concern is system prompts, regardless of prompt type (static and/or dynamic).
+# Scenario:
+#  I have four agents used in call centre chat app: Supervisor, Technical Support Specialist, Billing/Account Specialist and Product/Services Specialist
+#
+#  Steps to repro: 
+#  1. Supervisor agent setups a system prompt
+#  2. Based on the query, the model will return which specialist can handle the user's prompt
+#  3. The Supervisor routes to the Specialist
+#  4. The Specialist has its own Agent and system prompt. However, the system prompt doesn't get applied because an existing system prompt (supervisor's) already exists.
+#  5. Because the Specialist's system prompt doesn't get applied, the Specialist agent's model expectation fails.
+#  
+#  How I solved this was to remove the system prompt from the history, prior to calling the Specialist agent. 
+#  Im OK with this as I'm not sure how we can solve this unless there's a way never to add system prompts to history, some sort of flag or something.
+
 
 from __future__ import annotations
 
@@ -45,7 +62,16 @@ class CallCentre:
         class Config:
             arbitrary_types_allowed = True          
         
-    class Supervisor(BaseNode[GraphState]):
+    class Specialist:
+        def finalize(self, response: str, ctx: GraphRunContext[CallCentre.GraphState]):
+            ctx.state.history.remove_part_kind("system-prompt")                        
+            ctx.state.response = CallCentreResponse(
+                specialist=ctx.state.specialist, 
+                response=response,
+                usage=ctx.state.usage
+            )                        
+        
+    class Supervisor(BaseNode[GraphState], Specialist):
         class Response(BaseModel):
             specialist: Specialist = Specialist.General
             general_response: Optional[str] = None        
@@ -100,17 +126,13 @@ class CallCentre:
                     case Specialist.Technical:
                         return CallCentre.TechnicalSupportSpecialist()
             
-                # general response
-                ctx.state.response = CallCentreResponse(
-                    specialist=result.data.specialist, 
-                    response=result.data.general_response, 
-                    usage=ctx.state.usage
-                )
+                # general response                
+                super().finalize(response=result.data.general_response, ctx=ctx)
         
-            print(Fore.LIGHTGREEN_EX + ctx.state.history.to_json(indent=2))
+            # print(Fore.LIGHTGREEN_EX + ctx.state.history.to_json(indent=2))
             return End(ctx.state.response )
     
-    class BillingAccountSpecialist(BaseNode[GraphState]):
+    class BillingAccountSpecialist(BaseNode[GraphState], Specialist):
         def __init__(self):
             self.agent = Agent(
                 model=open_ai_model,   
@@ -131,17 +153,12 @@ class CallCentre:
                 usage=ctx.state.usage                
             )            
             
-            ctx.state.history.assign(result.all_messages()).remove_part_kind("system-prompt")
-                        
-            ctx.state.response = CallCentreResponse(
-                specialist=ctx.state.specialist, 
-                response=result.data,
-                usage=ctx.state.usage
-            )            
+            ctx.state.history.assign(result.all_messages())      
+            super().finalize(response=result.data, ctx=ctx)
                              
             return CallCentre.Supervisor()  
 
-    class TechnicalSupportSpecialist(BaseNode[GraphState]):
+    class TechnicalSupportSpecialist(BaseNode[GraphState], Specialist):
         def __init__(self):
             self.agent = Agent(
                 model=open_ai_model,   
@@ -164,17 +181,12 @@ class CallCentre:
                 usage=ctx.state.usage                
             )            
             
-            ctx.state.history.assign(result.all_messages()).remove_part_kind("system-prompt")
-            
-            ctx.state.response = CallCentreResponse(
-                specialist=ctx.state.specialist, 
-                response=result.data,
-                usage=ctx.state.usage
-            )            
+            ctx.state.history.assign(result.all_messages())      
+            super().finalize(response=result.data, ctx=ctx)
             
             return CallCentre.Supervisor()  
-
-    class ProductServiceSpecialist(BaseNode[GraphState]):
+        
+    class ProductServiceSpecialist(BaseNode[GraphState], Specialist):
         def __init__(self):
             self.agent = Agent(
                 model=open_ai_model,   
@@ -197,13 +209,8 @@ class CallCentre:
                 usage=ctx.state.usage                
             )            
             
-            ctx.state.history.assign(result.all_messages()).remove_part_kind("system-prompt")
-            
-            ctx.state.response = CallCentreResponse(
-                specialist=ctx.state.specialist, 
-                response=result.data,
-                usage=ctx.state.usage
-            )            
+            ctx.state.history.assign(result.all_messages())      
+            super().finalize(response=result.data, ctx=ctx)
               
             return CallCentre.Supervisor()  
     
@@ -260,6 +267,18 @@ async def main_async():
                 print(Fore.MAGENTA + f"Error: {e}")
             finally:
                 print(Fore.RESET)                
+
+
+# EXAMPLE QUERIES:
+#   Hello
+#   Who won the last stanley cup?
+#   I'm having issues logging into my account
+#   Who won the last cup again?
+#   What was my last issue?
+#   My phone turns off after 5 mins
+#   Thanks
+#   exit
+
 
 if __name__ == "__main__":
     os.system("cls")

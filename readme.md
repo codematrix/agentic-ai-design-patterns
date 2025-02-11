@@ -4,7 +4,7 @@ This repository showcases a collection of simple agents designed to demonstrate 
 
 To keep things simple and to reduce unnecessary complexity, the examples will minimize framework dependencies. We've chosen [Pydantic AI](https://ai.pydantic.dev/) for our agentic AI development as it is both lightweight and provides the essential building blocks for building production-quality `Agentic AI workflows`
 
-All use cases (except for one) leverages [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/) to manage agentic workflows. Using `graph-based workflows` from the outset is a good **best practice** for several reasons:
+All use cases (except for a couple) leverages [Pydantic Graphs](https://ai.pydantic.dev/api/pydantic_graph/graph/) to manage agentic workflows. Using `graph-based workflows` from the outset is a good **best practice** for several reasons:
 
 - Most agentic workflows involve multiple agents. A graph-based workflow approach provides a consistent foundational pattern, making it easier to understand and maintain across the development team.  
 - Introducing graph-based workflows early in the SDLC makes it significantly easier when extensibility and refactoring are required.
@@ -24,7 +24,7 @@ This section highlights various design patterns commonly used in agentic AI deve
 - [Building effective agents](https://www.anthropic.com/research/building-effective-agents)
 - [Multi-agent Systems](https://langchain-ai.github.io/langgraph/concepts/multi_agent/)
 
-### [Fully Autonomous](examples/full_autonomous) - Single Agent (no graphs)
+### [Fully Autonomous](examples/full_autonomous) - Single Agent with Tools (no graphs)
 - Demonstrates how a single agent can seamlessly integrate with third-party tools, such as Asana, to automate project and task management. The agent's model is allowed to operate **Full Autonomously**, provided it has the appropriate tools to perform its tasks effectively.
 - Features:
   - Fully autonomous operation (planning)
@@ -39,7 +39,7 @@ This section highlights various design patterns commonly used in agentic AI deve
 
 **Note**: For sake of demonstration, the Asana API is a mock and utilizes _sqlite_ to maintain states i.e. Projects and Tasks
 
-### [Prompt Chaining Workflow](examples/prompt-chaining)
+### [Prompt Chaining Workflow](examples/prompt_chaining)
 - Demonstrates how to use prompt chaining - taking part or in whole, the response of a previous agent and using it as input to the next agent in the chain.
 - Use-case: 
   - Obtain a validate city from the user. If a valid city was not provided, the end and with no results.
@@ -56,24 +56,45 @@ This section highlights various design patterns commonly used in agentic AI deve
   <img src="resources/prompt_chaining.png" width="600">
 </p>
 
-### [Supervisor (multi-agent)](examples/supervisor)
-- Demonstrates how to create a call centre chat app using a Supervisor - multi-agent design pattern. This design pattern lends itself well, whereby enforcing the single-responsibility-principal (SRP).
-- Use-case: 
-    - Create a chat app that allows users to ask general questions, regardless if the questions are related to our services or not.  
-  - The Supervisor obtains the initial user prompt and decides which Specialist to route the user's prompt too.
-  - If no Specialist can handle the request, the Supervisor will response back to the user politely.
-  - If a Specialist can handle the response, then route the final response back to the Supervisor, which completes graph cycle.
+### [Supervisor](examples/supervisor) - Multi-Agent
+- Demonstrates how to build a call center chat application using a Supervisor-based multi-agent design pattern. This approach aligns well with the Single Responsibility Principle (SRP), ensuring each agent has a clear, focused role.
+- Use Case:
+  - Develop a chat application that allows users to ask general questions, whether or not 
+    they  are related to the company's services.  
+  - The Supervisor agent receives the initial user query and determines the 
+    appropriate Specialist to handle it.
+  - If no Specialist can address the request, the Supervisor responds to the user politely.
+  - If a Specialist can handle the request, it processes the response and sends it back to the Supervisor, completing the interaction graph cycle.
 - Features:
   - Multi-Agent
   - Graphs
   - States
-  - History
+  - Chat history (memory)
   - Result Type    
 - Workflow
 <p style="margin-left: 40px;">
   <img src="resources/supervisor_multi_agent.png" width="600">
 </p>
 
+
+### [Supervisor](examples/supervisor) - Single Agent using other Agents as Tools (no graphs)
+????
+- Demonstrates how to build a call center chat application using a Supervisor-based single agent design pattern but uses other agents as Tools in it's reasoning cycle. Similar to the Fully Autonomous agent noted above. 
+- Use Case:
+  - Develop a chat application that allows users to ask general questions, whether or not 
+    they  are related to the company's services.  
+  - The Supervisor agent receives the initial user query and determines the plan of actions
+    to take to properly response back to the user.
+  - Use the appropriate Specialist tools to handle the user's request
+- Features:
+  - Supervisor (planning)
+  - Tool calling (via agents)
+  - Chat history (memory)
+  - States  
+- Workflow
+<p style="margin-left: 40px;">
+  <img src="resources/supervisor_single_agent_with_tools.png" width="600">
+</p>
 
 ## WORK IN PROGRESS SUBJECT TO CHANGE
 

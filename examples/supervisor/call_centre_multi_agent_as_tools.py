@@ -20,9 +20,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict
 import os
-import json
 import asyncio
 from enum import Enum
 from typing import Optional
@@ -153,7 +151,6 @@ async def main_async():
                 print(Fore.YELLOW + result.specialist.name)
                 print(Fore.GREEN + result.tool)
                 print(Fore.LIGHTCYAN_EX + result.response)                
-                # print(Fore.CYAN + json.dumps(asdict(result.usage), indent=2))
                                 
             except Exception as e:
                 print(Fore.MAGENTA + f"Error: {e}")

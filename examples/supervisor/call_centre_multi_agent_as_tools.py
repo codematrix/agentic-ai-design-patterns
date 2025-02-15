@@ -20,7 +20,9 @@
 
 from __future__ import annotations
 
+from dataclasses import asdict
 import os
+import json
 import asyncio
 from enum import Enum
 from typing import Optional
@@ -46,15 +48,17 @@ class Specialist(Enum):
     TechnicalSupport = "technical support"   
 
 class CallCentreResponse:    
-    def __init__(self, specialist: Specialist, response: str, usage: Usage):
+    def __init__(self, specialist: Specialist, response: str, tool: str | None, usage: Usage):
         self.specialist = specialist
         self.response = response
+        self.tool = tool
         self.usage = usage             
     
 class CallCentre:
     class Response(BaseModel):
         specialist: Specialist = Specialist.General
         response: Optional[str] = None        
+        tool: Optional[str] = None
     
     class States(BaseModel):        
         specialist: Specialist = Field(default=Specialist.General)
@@ -63,22 +67,16 @@ class CallCentre:
         usage: Usage = Usage()              
         class Config:
             arbitrary_types_allowed = True          
-        
-    # class Specialist:
-    #     def finalize(self, response: str, ctx: GraphRunContext[CallCentre.GraphState]):
-    #         ctx.state.history.remove_part_kind("system-prompt")                        
-    #         ctx.state.response = CallCentreResponse(
-    #             specialist=ctx.state.specialist, 
-    #             response=response,
-    #             usage=ctx.state.usage
-    #         )                                    
-        
-    def __init__(self):                
-        self.reset_state()
+                
+    def __init__(self):
+        self.initialize()
+         
+    def initialize(self):
+        self.state = CallCentre.States()         
         
         self.supervisor = Agent(
             model=open_ai_model,      
-            tools=CallCentreTools(open_ai_model).get_tools(),      
+            tools=CallCentreTools(open_ai_model, self.state.usage).get_tools(),
             result_type=CallCentre.Response,
             result_retries=2,
                                      
@@ -97,25 +95,34 @@ class CallCentre:
                 3. If the specialist is:
                     - general: Then respond as best as you can, even though it has noting to do with the call-centre.
                     - not general: Then use the appropriate tool to obtain the response as final. Do not amend to the tool's final response.
-                4. Always and only return the specialist and the response.
+                4. Always and only return the specialist, response and the tool(s) used if any.
 
                 Output:
                 Specialist:
                 Response:
+                Tool: 
             """)
         )                       
-                
+        
+                    
     async def ask_async(self, prompt: str) -> CallCentreResponse:               
-        response = await self.supervisor.run(prompt)        
+        result = await self.supervisor.run(
+            prompt,
+            message_history=self.state.history.get_all_messages(),
+            usage=self.state.usage                
+        )       
+        
+        self.state.history.assign(result.all_messages()) 
 
         return CallCentreResponse(
-            specialist= response.data.specialist,
-            response= response.data.response,
-            usage = self.state.usage                    
-        )
-
-    def reset_state(self):
-        self.state = CallCentre.States()
+            specialist=result.data.specialist,
+            response=result.data.response,
+            tool=result.data.tool if result.data.tool else "None",
+            usage=self.state.usage
+        )    
+    
+    def reset(self):
+        self.initialize()
     
 
 async def main_async():
@@ -137,16 +144,16 @@ async def main_async():
             
             if prompt == "reset":
                 os.system("cls")
-                call_centre.reset_state()
+                call_centre.reset()
                 continue 
             
             try:                
                 result = await call_centre.ask_async(prompt)                
                 
-                # print(result.data)
-                
                 print(Fore.YELLOW + result.specialist.name)
-                print(Fore.LIGHTCYAN_EX + result.response)                                
+                print(Fore.GREEN + result.tool)
+                print(Fore.LIGHTCYAN_EX + result.response)                
+                # print(Fore.CYAN + json.dumps(asdict(result.usage), indent=2))
                                 
             except Exception as e:
                 print(Fore.MAGENTA + f"Error: {e}")

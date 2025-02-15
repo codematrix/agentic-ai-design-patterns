@@ -8,10 +8,12 @@ from typing import List
 from pydantic_ai import Agent
 from pydantic_ai.models import Model
 from pydantic_ai.tools import Tool
+from pydantic_ai.usage import Usage
 
 class CallCentreTools:
-    def __init__(self, model: Model):
-        self.__tools__ : List[Tool] = []
+    def __init__(self, model: Model, usage: Usage):
+        self.__tools__ : List[Tool] = []    
+        self.__usage__ = usage    
         
         self.billing_account_agent = Agent(
             model=model,   
@@ -74,8 +76,12 @@ class CallCentreTools:
             response: str
         """
 
-        response = await self.technical_support_agent.run(user_prompt=user_prompt)
-        return response.data
+        result = await self.technical_support_agent.run(
+            user_prompt=user_prompt,
+            usage=self.__usage__
+        )
+        
+        return result.data
     
     async def billing_account_specialist(self, user_prompt: str) -> str:
         """
@@ -89,8 +95,12 @@ class CallCentreTools:
             response: str
         """
 
-        response = await self.billing_account_agent.run(user_prompt=user_prompt)
-        return response.data
+        result = await self.billing_account_agent.run(
+            user_prompt=user_prompt,
+            usage=self.__usage__
+        )
+                
+        return result.data
     
     async def product_service_specialist(self, user_prompt: str) -> str:
         """
@@ -104,8 +114,12 @@ class CallCentreTools:
             response: str
         """
 
-        response = await self.product_service_agent.run(user_prompt=user_prompt)
-        return response.data        
+        result = await self.product_service_agent.run(
+            user_prompt=user_prompt,
+            usage=self.__usage__
+        )
+        
+        return result.data        
 
     def get_tools(self) -> List[Tool]:
         return self.__tools__

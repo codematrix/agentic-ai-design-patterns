@@ -100,8 +100,7 @@ class CallCentre:
                 Response:
                 Tool: 
             """)
-        )                       
-        
+        )                               
                     
     async def ask_async(self, prompt: str) -> CallCentreResponse:               
         result = await self.supervisor.run(
@@ -112,10 +111,12 @@ class CallCentre:
         
         self.state.history.assign(result.all_messages()) 
 
+        print(self.state.history.to_json(indent=2))
+
         return CallCentreResponse(
             specialist=result.data.specialist,
             response=result.data.response,
-            tool=result.data.tool if result.data.tool else "None",
+            tool="None" if result.data.tool is None else result.data.tool,
             usage=self.state.usage
         )    
     

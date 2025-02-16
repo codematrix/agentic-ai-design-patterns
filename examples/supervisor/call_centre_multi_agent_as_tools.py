@@ -58,9 +58,7 @@ class CallCentre:
         response: Optional[str] = None        
         tool: Optional[str] = None
     
-    class States(BaseModel):        
-        specialist: Specialist = Field(default=Specialist.General)
-        response: CallCentreResponse = None
+    class States(BaseModel):                
         history: MessageHistory = MessageHistory()
         usage: Usage = Usage()              
         class Config:
@@ -109,9 +107,7 @@ class CallCentre:
             usage=self.state.usage                
         )       
         
-        self.state.history.assign(result.all_messages()) 
-
-        print(self.state.history.to_json(indent=2))
+        self.state.history.assign(result.all_messages())        
 
         return CallCentreResponse(
             specialist=result.data.specialist,

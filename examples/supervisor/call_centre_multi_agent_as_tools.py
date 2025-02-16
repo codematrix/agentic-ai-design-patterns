@@ -27,7 +27,6 @@ from typing import Optional
 from rich.prompt import Prompt
 from colorama import Fore
 from dotenv import load_dotenv
-from pydantic import BaseModel, Field
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.usage import Usage

@@ -11,5 +11,7 @@
         "--disable=redefined-outer-name",
         "--disable=wrong-import-order",
         "--disable=global-statement",
+        "--disable=wrong-import-position",
+        "--disable=too-few-public-methods"
     ]
 }

@@ -22,13 +22,14 @@ from __future__ import annotations
 
 import os
 import asyncio
-from enum import Enum
-from typing import Optional
+from typing import Callable
 from rich.prompt import Prompt
 from colorama import Fore
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_ai import Agent
+from pydantic_ai.result import StreamedRunResult
+from pydantic_ai.messages import TextPart
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.usage import Usage
 
@@ -39,28 +40,18 @@ load_dotenv()
 
 open_ai_model = OpenAIModel("gpt-4o-mini")
 
-class Specialist(Enum):
-    General = "general"
-    BillingAccount = "billing/account"    
-    ProductServices = "products/services"
-    TechnicalSupport = "technical support"   
-
+async def stream_result_async(result: StreamedRunResult): 
+    async for message in result.stream_text(delta=True):  
+        yield message 
 class CallCentreResponse:    
-    def __init__(self, specialist: Specialist, response: str, tool: str | None, usage: Usage):
-        self.specialist = specialist
-        self.response = response
-        self.tool = tool
+    def __init__(self, response: str, usage: Usage):
+        self.response = response        
         self.usage = usage             
     
-class CallCentre:
-    class Response(BaseModel):
-        specialist: Specialist = Specialist.General
-        response: Optional[str] = None        
-        tool: Optional[str] = None
-    
+class CallCentre:    
     class States(BaseModel):                
         history: MessageHistory = MessageHistory()
-        usage: Usage = Usage()              
+        usage: Usage = Usage()
         class Config:
             arbitrary_types_allowed = True          
                 
@@ -72,8 +63,7 @@ class CallCentre:
         
         self.supervisor = Agent(
             model=open_ai_model,      
-            tools=CallCentreTools(open_ai_model, self.state.usage).get_tools(),
-            result_type=CallCentre.Response,
+            tools=CallCentreTools(open_ai_model, self.state.usage).get_tools(),            
             result_retries=2,
                                      
             system_prompt=("""
@@ -91,35 +81,46 @@ class CallCentre:
                 3. If the specialist is:
                     - general: Then respond as best as you can, even though it has noting to do with the call-centre.
                     - not general: Then use the appropriate tool to obtain the response as final. Do not amend to the tool's final response.
-                4. Always and only return the specialist, response and the tool(s) used if any.
-
-                Output:
-                Specialist:
-                Response:
-                Tool: 
-            """)
-        )                               
+                """.strip()            
+            )  
+        )                             
                     
-    async def ask_async(self, prompt: str) -> CallCentreResponse:               
+    async def ask_async(self, prompt: str, stream_parts: Callable[[str], None]) -> CallCentreResponse:
         result = await self.supervisor.run(
             prompt,
             message_history=self.state.history.get_all_messages(),
             usage=self.state.usage                
         )       
+             
+        final_response = ""
+        async with self.supervisor.run_stream(
+            prompt, 
+            message_history=self.state.history.get_all_messages(),
+            usage=self.state.usage 
+        ) as result:
+            async for chunk in stream_result_async(result):
+                final_response += chunk
+                stream_parts(chunk)
         
-        self.state.history.assign(result.all_messages())        
+        self.state.history.assign(result.all_messages())
+        self.state.history.append(TextPart(content=final_response))   
+        
+        # print()
+        # print(self.state.history.to_json(indent=2))   
 
-        return CallCentreResponse(
-            specialist=result.data.specialist,
-            response=result.data.response,
-            tool="None" if result.data.tool is None else result.data.tool,
+        return CallCentreResponse(     
+            response=final_response,
             usage=self.state.usage
         )    
     
     def reset(self):
         self.initialize()
-    
+ 
 
+# Things to consider
+# not sure why tools are being called twice 
+# consider streaming the tools response however, need to worry about the double tool calling 
+    
 async def main_async():
     Prompt.prompt_suffix = "> "
     
@@ -143,12 +144,13 @@ async def main_async():
                 continue 
             
             try:                
-                result = await call_centre.ask_async(prompt)                
-                
-                print(Fore.YELLOW + result.specialist.name)
-                print(Fore.GREEN + result.tool)
-                print(Fore.LIGHTCYAN_EX + result.response)                
-                                
+                await call_centre.ask_async(
+                    prompt,
+                    lambda stream_part: (
+                        print(Fore.LIGHTGREEN_EX + stream_part, end="")
+                    )
+                )                                
+
             except Exception as e:
                 print(Fore.MAGENTA + f"Error: {e}")
             finally:

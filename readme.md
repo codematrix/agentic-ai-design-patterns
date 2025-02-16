@@ -34,7 +34,7 @@ This section highlights various design patterns commonly used in agentic AI deve
   - streamlit app (with streaming)  
 - Workflow
 <p style="margin-left: 40px;">
-  <img src="resources/full_autonomous.png" width="800">
+  <img src="resources/full_autonomous.png" width="500">
 </p>  
 
 **Note**: For sake of demonstration, the Asana API is a mock and utilizes _sqlite_ to maintain states i.e. Projects and Tasks

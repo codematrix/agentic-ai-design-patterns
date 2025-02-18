@@ -1,8 +1,8 @@
 # NOTE:
-# - This section defines call-center specialists as tools to be utilized by the anonymous call-center supervisor agent.
+# - This section defines call-centre specialists as tools to be utilized by the anonymous call-centre supervisor agent.
 # - Pydantic AI tools offer multiple flavors for defining tools: `plan` (decorator), `context` (decorator), and `tool definition`. See the documentation: https://ai.pydantic.dev/tools/
 # - For this example, I opted for the `tool definition` flavor because it is loosely coupled to the agent until runtime.
-#   This approach ensures flexibility, allowing thses tools to be reusable by various anonymous call-center supervisor agents
+#   This approach ensures flexibility, allowing these tools to be reusable by various anonymous call-centre supervisor agents
 
 from typing import List
 from pydantic_ai import Agent
@@ -10,13 +10,21 @@ from pydantic_ai.models import Model
 from pydantic_ai.tools import Tool
 from pydantic_ai.usage import Usage
 
-class CallCentreTools:
+class CallCentreToolStates:
+    model: Model
+    usage: Usage
+    
     def __init__(self, model: Model, usage: Usage):
+        self.model = model
+        self.usage = usage    
+
+class CallCentreTools:
+    def __init__(self, states: CallCentreToolStates):
         self.__tools__ : List[Tool] = []    
-        self.__usage__ = usage    
+        self.__states__ = states
         
         self.billing_account_agent = Agent(
-            model=model,   
+            model=states.model,   
             system_prompt="""
                 You are a billing and account support specialist. Follow these guidelines:
                 
@@ -28,7 +36,7 @@ class CallCentreTools:
         )
         
         self.technical_support_agent = Agent(
-            model=model,   
+            model=states.model,
             system_prompt="""
                 You are a technical support specialist. Follow these guidelines:
                 
@@ -42,7 +50,7 @@ class CallCentreTools:
         )              
         
         self.product_service_agent = Agent(
-            model=model,   
+            model=states.model,
             system_prompt="""
                 You are a product and services specialist. Follow these guidelines:
                                     
@@ -79,7 +87,7 @@ class CallCentreTools:
 
         result = await self.technical_support_agent.run(
             user_prompt=user_prompt,
-            usage=self.__usage__
+            usage=self.__states__.usage
         )
         
         return result.data
@@ -99,7 +107,7 @@ class CallCentreTools:
 
         result = await self.billing_account_agent.run(
             user_prompt=user_prompt,
-            usage=self.__usage__
+            usage=self.__states__.usage
         )
                 
         return result.data
@@ -119,7 +127,7 @@ class CallCentreTools:
 
         result = await self.product_service_agent.run(
             user_prompt=user_prompt,
-            usage=self.__usage__
+            usage=self.__states__.usage
         )
         
         return result.data        

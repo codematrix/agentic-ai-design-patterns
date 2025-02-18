@@ -34,7 +34,7 @@ from pydantic_ai.messages import TextPart
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.usage import Usage
 
-from examples.supervisor.call_centre_tools import CallCentreTools
+from examples.supervisor.call_centre_tools import CallCentreTools, CallCentreToolStates
 from utils.message_history import MessageHistory
 
 load_dotenv()
@@ -61,12 +61,13 @@ class CallCentre:
         self.initialize()
          
     def initialize(self):
-        self.state = CallCentre.States()         
+        self.states = CallCentre.States()
+        self.tool_states = CallCentreToolStates(open_ai_model, self.states.usage)         
         
         self.supervisor = Agent(
             model=open_ai_model,      
-            tools=CallCentreTools(open_ai_model, self.state.usage).get_tools(),                  
-            result_retries=2,                                     
+            tools=CallCentreTools(self.tool_states).get_tools(),             
+            result_retries=1,                                     
             system_prompt=("""
                 You're a call-centre supervisor. You have the following specialists on your team:                
                 - technical support 
@@ -83,22 +84,22 @@ class CallCentre:
         final_response = ""
         async with self.supervisor.run_stream(
             prompt, 
-            message_history=self.state.history.get_all_messages(),
-            usage=self.state.usage 
+            message_history=self.states.history.get_all_messages(),
+            usage=self.states.usage 
         ) as result:
             async for chunk in stream_result_async(result):
                 final_response += chunk
                 stream_parts(chunk)
         
-        self.state.history.assign(result.all_messages())
-        self.state.history.append(TextPart(content=final_response))   
+        self.states.history.assign(result.all_messages())
+        self.states.history.append(TextPart(content=final_response))   
         
         # print()
         # print(self.state.history.to_json(indent=2))   
 
         return CallCentreResponse(     
             response=final_response,            
-            usage=self.state.usage
+            usage=self.states.usage
         )    
     
     def reset(self):

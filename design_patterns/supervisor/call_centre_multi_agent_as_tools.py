@@ -1,21 +1,6 @@
-# NOTES: ?????????????????????
-# In this example we are using a supervisor multi-agent design pattern.
-# We have a supervisor that delegates requests to specialist that can the user's query
-# If specialist can handle the query, the supervisor will provide a general response back to the user
-#
-# Issuing with shared history across multi-agent using Pydantic Agents. The concern is system prompts, regardless of prompt type (static and/or dynamic).
-# Scenario:
-#  I have four agents used in call centre chat app: Supervisor, Technical Support Specialist, Billing/Account Specialist and Product/Services Specialist
-#
-#  Steps to repro: 
-#  1. Supervisor agent setups a system prompt
-#  2. Based on the query, the model will return which specialist can handle the user's prompt
-#  3. The Supervisor routes to the Specialist
-#  4. The Specialist has its own Agent and system prompt. However, the system prompt doesn't get applied because an existing system prompt (supervisor's) already exists.
-#  5. Because the Specialist's system prompt doesn't get applied, the Specialist agent's model expectation fails.
-#  
-#  How I solved this was to remove the system prompt from the history, prior to calling the Specialist agent. 
-#  Im OK with this as I'm not sure how we can solve this unless there's a way never to add system prompts to history, some sort of flag or something.
+# NOTES:
+# In this example we are using a supervisor multi-agent design pattern (non-graph) autonomously
+# We have a supervisor that delegates requests to specialist via tools.
 
 
 from __future__ import annotations
@@ -29,22 +14,18 @@ from colorama import Fore
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_ai import Agent
-from pydantic_ai.result import StreamedRunResult
 from pydantic_ai.messages import TextPart
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.usage import Usage
-
-from examples.supervisor.call_centre_tools import CallCentreTools, CallCentreToolStates
-from utils.message_history import MessageHistory
+from design_patterns.supervisor.call_centre_tools import CallCentreTools, CallCentreToolStates
+from _utils.message_history import MessageHistory
+from _utils.utils import Utils
 
 load_dotenv()
 # logfire.configure()
 
 open_ai_model = OpenAIModel("gpt-4o-mini")
-
-async def stream_result_async(result: StreamedRunResult): 
-    async for message in result.stream_text(delta=True):  
-        yield message 
+        
 class CallCentreResponse:    
     def __init__(self, response: str, usage: Usage):
         self.response = response        
@@ -87,7 +68,7 @@ class CallCentre:
             message_history=self.states.history.get_all_messages(),
             usage=self.states.usage 
         ) as result:
-            async for chunk in stream_result_async(result):
+            async for chunk in Utils.stream_result_async(result):
                 final_response += chunk
                 stream_parts(chunk)
         

@@ -67,6 +67,7 @@ class CallCentreTools:
     async def technical_support_specialist(self, user_prompt: str) -> str:
         """
         Technical Support Specialist that handles technical support issues.
+        Use this tool to provide the user the final response if the concern is technical in nature.
 
         Example call: technical_support_specialist("I'm having issues with my cell phone.")
         
@@ -85,7 +86,8 @@ class CallCentreTools:
     
     async def billing_account_specialist(self, user_prompt: str) -> str:
         """
-        Billing and accounts specialists that handles billing and/or account enquires.
+        Billing and accounts specialists that only handles billing and/or account questions.
+        Use this tool to provide the user the final response if the concern is billing or account in nature.
 
         Example call: billing_account_specialist("My account is locked.")
         
@@ -104,7 +106,8 @@ class CallCentreTools:
     
     async def product_service_specialist(self, user_prompt: str) -> str:
         """
-        Product and services specialists that handles product and/or service enquires.
+        Product and services specialists that only handles product and/or service questions.
+        Use this tool to provide the user the final response if the concern is product or services in nature.
 
         Example call: product_service_specialist("I like to know more about you latest cell phones.")
         

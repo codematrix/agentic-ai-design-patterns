@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import os
 import asyncio
+# import logfire
 from typing import Callable
 from rich.prompt import Prompt
 from colorama import Fore
@@ -37,6 +38,7 @@ from examples.supervisor.call_centre_tools import CallCentreTools
 from utils.message_history import MessageHistory
 
 load_dotenv()
+# logfire.configure()
 
 open_ai_model = OpenAIModel("gpt-4o-mini")
 
@@ -63,35 +65,21 @@ class CallCentre:
         
         self.supervisor = Agent(
             model=open_ai_model,      
-            tools=CallCentreTools(open_ai_model, self.state.usage).get_tools(),            
-            result_retries=2,
-                                     
+            tools=CallCentreTools(open_ai_model, self.state.usage).get_tools(),                  
+            result_retries=2,                                     
             system_prompt=("""
-                You're a call-centre supervisor. When you receive a user's prompt, decide the specialist that is best suited to handle the response. 
-                
-                You have the following specialists on your team:
-                - general
+                You're a call-centre supervisor. You have the following specialists on your team:                
                 - technical support 
                 - products/services
-                - billing/accounts
+                - billing/accounts                                                                
 
-                Instructions:
-                1. Decide the specialist that is best suited to handle the response. 
-                2. If you can't determine a suitable specialist, then assume a general specialist
-                3. If the specialist is:
-                    - general: Then respond as best as you can, even though it has noting to do with the call-centre.
-                    - not general: Then use the appropriate tool to obtain the response as final. Do not amend to the tool's final response.
-                """.strip()            
-            )  
+                Instructions:                
+                1. Decide which specialist is best suited to handle the user's prompt.
+                2. If you can't determine a suitable specialist, then respond back in general friendly way.                
+            """)  
         )                             
                     
     async def ask_async(self, prompt: str, stream_parts: Callable[[str], None]) -> CallCentreResponse:
-        result = await self.supervisor.run(
-            prompt,
-            message_history=self.state.history.get_all_messages(),
-            usage=self.state.usage                
-        )       
-             
         final_response = ""
         async with self.supervisor.run_stream(
             prompt, 
@@ -109,7 +97,7 @@ class CallCentre:
         # print(self.state.history.to_json(indent=2))   
 
         return CallCentreResponse(     
-            response=final_response,
+            response=final_response,            
             usage=self.state.usage
         )    
     
@@ -118,8 +106,8 @@ class CallCentre:
  
 
 # Things to consider
-# not sure why tools are being called twice 
-# consider streaming the tools response however, need to worry about the double tool calling 
+# consider streaming the tools response however
+# if we get streaming working, we may want to update the graph version 
     
 async def main_async():
     Prompt.prompt_suffix = "> "

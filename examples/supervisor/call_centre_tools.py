@@ -1,8 +1,8 @@
 # NOTE:
-# - This section defines the call centre specialists as tools to be utilized by the anonymous caller center supervisor agent.
+# - This section defines call-center specialists as tools to be utilized by the anonymous call-center supervisor agent.
 # - Pydantic AI tools offer multiple flavors for defining tools: `plan` (decorator), `context` (decorator), and `tool definition`. See the documentation: https://ai.pydantic.dev/tools/
 # - For this example, I opted for the `tool definition` flavor because it is loosely coupled to the agent until runtime.
-#   This approach ensures flexibility, allowing the tools to be reusable by various anonymous caller center supervisor agents
+#   This approach ensures flexibility, allowing thses tools to be reusable by various anonymous call-center supervisor agents
 
 from typing import List
 from pydantic_ai import Agent

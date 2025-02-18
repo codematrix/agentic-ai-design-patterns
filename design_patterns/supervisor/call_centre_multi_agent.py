@@ -53,14 +53,12 @@ class CallCentreResponse(BaseModel):
     usage: Usage | None = Field(default=None)    
     
 class CallCentre:
-    class GraphState(BaseModel):
+    class GraphState:
         prompt: Optional[str] = None
         specialist: Specialist = Field(default=Specialist.General)
         response: CallCentreResponse = None
         history: MessageHistory = MessageHistory()
         usage: Usage = Usage()              
-        class Config:
-            arbitrary_types_allowed = True          
         
     class Specialist:
         def finalize(self, response: str, ctx: GraphRunContext[CallCentre.GraphState]):

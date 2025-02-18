@@ -32,12 +32,10 @@ class CallCentreResponse:
         self.usage = usage             
     
 class CallCentre:    
-    class States(BaseModel):                
+    class States:                
         history: MessageHistory = MessageHistory()
         usage: Usage = Usage()
-        class Config:
-            arbitrary_types_allowed = True          
-                
+        
     def __init__(self):
         self.initialize()
          

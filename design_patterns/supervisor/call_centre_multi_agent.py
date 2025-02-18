@@ -33,7 +33,7 @@ from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.usage import Usage
 from pydantic_graph import BaseNode, End, Graph, GraphRunContext
 
-from utils.message_history import MessageHistory
+from _utils.message_history import MessageHistory
 
 load_dotenv()
 

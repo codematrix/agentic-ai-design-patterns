@@ -13,15 +13,12 @@ from pydantic_ai.messages import TextPart
 from asana_tools import AsanaTools
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-from utils.message_history import MessageHistory
+from _utils.message_history import MessageHistory
+from _utils.utils import Utils
 
 load_dotenv()
 
 tools = AsanaTools()
-
-async def stream_result_async(result: StreamedRunResult): 
-    async for message in result.stream_text(delta=True):  
-        yield message 
 
 
 async def main_async():            
@@ -53,7 +50,7 @@ async def main_async():
             try:
                 response_content = ""
                 async with agent.run_stream(prompt, message_history=message_history.get_all_messages()) as result:
-                    async for chunk in stream_result_async(result):
+                    async for chunk in Utils.stream_result_async(result):
                         response_content += chunk
                         print(Fore.LIGHTGREEN_EX + chunk, end="")
                         

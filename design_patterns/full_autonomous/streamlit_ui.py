@@ -16,7 +16,8 @@ from pydantic_ai.messages import TextPart
 from asana_tools import AsanaTools
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-from utils.message_history import MessageHistory
+from _utils.message_history import MessageHistory
+from _utils.utils import Utils
 
 load_dotenv()
 
@@ -31,10 +32,6 @@ agent = Agent(
         f"The current date is: {datetime.now().date()}"
     )
 )
-
-async def stream_result_async(result): 
-    async for message in result.stream_text(delta=True):  
-        yield message 
         
 async def main_async():
     st.title("Project/Task Manager")        
@@ -59,7 +56,7 @@ async def main_async():
         with st.chat_message("assistant"):
             message_placeholder = st.empty()             
             async with agent.run_stream(prompt, message_history=message_history) as result:
-                async for chunk in stream_result_async(result):
+                async for chunk in Utils.stream_result_async(result):
                     response_content += chunk
                     message_placeholder.markdown(response_content)    
                 

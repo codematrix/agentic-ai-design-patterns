@@ -24,22 +24,22 @@ This section highlights various design patterns commonly used in agentic AI deve
 - [Building effective agents](https://www.anthropic.com/research/building-effective-agents)
 - [Multi-agent Systems](https://langchain-ai.github.io/langgraph/concepts/multi_agent/)
 
-### [Fully Autonomous](examples/full_autonomous) - Single Agent with Tools (no graphs)
+### [Fully Autonomous](design_patterns/full_autonomous) - Single Agent with Tools (no graphs)
 - Demonstrates how a single agent can seamlessly integrate with third-party tools, such as Asana, to automate project and task management. The agent's model is allowed to operate **Full Autonomously**, provided it has the appropriate tools to perform its tasks effectively.
 - Features:
   - Fully autonomous operation (planning)
   - Tool calling 
   - chat history (memory)
-  - console app (with streaming) 
-  - streamlit app (with streaming)  
+  - Console app (with streaming) 
+  - Streamlit app (with streaming)  
 - Workflow
 <p style="margin-left: 40px;">
-  <img src="resources/full_autonomous.png" width="800">
+  <img src="resources/full_autonomous.png" width="650">
 </p>  
 
 **Note**: For sake of demonstration, the Asana API is a mock and utilizes _sqlite_ to maintain states i.e. Projects and Tasks
 
-### [Prompt Chaining Workflow](examples/prompt_chaining)
+### [Prompt Chaining Workflow](design_patterns/prompt_chaining)
 - Demonstrates how to use prompt chaining - taking part or in whole, the response of a previous agent and using it as input to the next agent in the chain.
 - Use-case: 
   - Obtain a validate city from the user. If a valid city was not provided, the end and with no results.
@@ -51,12 +51,13 @@ This section highlights various design patterns commonly used in agentic AI deve
   - States
   - Result Type
   - Prompt Chaining
+  - Console app
 - Workflow
 <p style="margin-left: 40px;">
   <img src="resources/prompt_chaining.png" width="800">
 </p>
 
-### [Supervisor](examples/supervisor) - Multi-Agent
+### [Supervisor](design_patterns/supervisor) - Multi-Agent
 - Demonstrates how to build a call center chat application using a Supervisor-based multi-agent design pattern. This approach aligns well with the Single Responsibility Principle (SRP), ensuring each agent has a clear, focused role.
 - Use Case:
   - Develop a chat application that allows users to ask general questions, whether or not 
@@ -71,24 +72,26 @@ This section highlights various design patterns commonly used in agentic AI deve
   - States
   - Chat history (memory)
   - Result Type    
+  - Console app
 - Workflow
 <p style="margin-left: 40px;">
   <img src="resources/supervisor_multi_agent.png" width="800">
 </p>
 
 
-### [Supervisor](examples/supervisor) - Single Agent using other Agents as Tools (no graphs)
+### [Supervisor](design_patterns/supervisor) - Single Agent using other Agents as Tools (no graphs)
 
-- Demonstrates how to build a call center chat application using a Supervisor-based single-agent design pattern, where other agents function as tools within its reasoning cycle. This approach is similar to the Fully Autonomous agent mentioned earlier.
+- Demonstrates how to build a call center chat application using a Supervisor-based single-agent design pattern, using agents as tools within its reasoning cycle. This approach is similar to the Fully Autonomous agent mentioned earlier.
 - Use Case:
   - Develop a chat application that allows users to ask general questions, regardless of whether they relate to the company's services.
   - The Supervisor agent receives the user's query and formulates a plan of action to provide an appropriate response.
-  - Leverage Specialist tools as needed to process and address the user's request effectively.
+  - Leverage Specialist tools (agents) as needed to process and address the user's request effectively.
 - Features:
   - Supervisor (planning)
   - Tool calling (via agents)
   - Chat history (memory)
   - States  
+  - Console app (with streaming) 
 - Workflow
 <p style="margin-left: 40px;">
   <img src="resources/supervisor_single_agent_with_tools.png" width="800">

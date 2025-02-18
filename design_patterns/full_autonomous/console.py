@@ -8,7 +8,6 @@ from colorama import Fore
 from dotenv import load_dotenv
 from rich.prompt import Prompt
 from pydantic_ai import Agent
-from pydantic_ai.result import StreamedRunResult
 from pydantic_ai.messages import TextPart
 from asana_tools import AsanaTools
 

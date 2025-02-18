@@ -17,7 +17,7 @@ from pydantic_ai import Agent
 from pydantic_ai.messages import TextPart
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.usage import Usage
-from design_patterns.supervisor.call_centre_tools import CallCentreTools, CallCentreToolStates
+from call_centre_tools import CallCentreTools, CallCentreToolStates
 from _utils.message_history import MessageHistory
 from _utils.utils import Utils
 

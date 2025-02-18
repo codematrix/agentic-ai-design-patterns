@@ -12,7 +12,6 @@ from typing import Callable
 from rich.prompt import Prompt
 from colorama import Fore
 from dotenv import load_dotenv
-from pydantic import BaseModel
 from pydantic_ai import Agent
 from pydantic_ai.messages import TextPart
 from pydantic_ai.models.openai import OpenAIModel

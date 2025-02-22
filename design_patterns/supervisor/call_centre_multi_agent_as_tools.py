@@ -1,13 +1,21 @@
 # NOTES:
 # In this example we are using a supervisor multi-agent design pattern (non-graph) autonomously
 # We have a supervisor that delegates requests to specialist via tools.
+# Areas of improvements:#     
+#   - Issue:
+#       Streaming works great when the supervisor responses immediately for general responses. 
+#       However, when a specialist is called via a tool, the response can be lengthy and is not streamed until the supervisor 
+#       receives the response from the tool.
+#   - Solution:
+#       We can create our own stream (queue) and immediate return this to the caller to read stream 
+#       from the pending response. This stream, can also be passed to the tools to enrich their response.
+#       However, this will require a lot of ceremony and will over complicate the intent of this example. 
 
 
 from __future__ import annotations
 
 import os
 import asyncio
-# import logfire
 from typing import Callable
 from rich.prompt import Prompt
 from colorama import Fore
@@ -21,7 +29,6 @@ from _utils.message_history import MessageHistory
 from _utils.utils import Utils
 
 load_dotenv()
-# logfire.configure()
 
 open_ai_model = OpenAIModel("gpt-4o-mini")
         
@@ -82,11 +89,6 @@ class CallCentre:
     
     def reset(self):
         self.initialize()
- 
-
-# Things to consider
-# consider streaming the tools response however
-# if we get streaming working, we may want to update the graph version 
     
 async def main_async():
     Prompt.prompt_suffix = "> "
@@ -133,7 +135,6 @@ async def main_async():
 #   My phone turns off after 5 mins
 #   Thanks
 #   exit
-
 
 if __name__ == "__main__":
     os.system("cls")

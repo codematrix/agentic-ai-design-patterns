@@ -24,7 +24,7 @@ This section highlights various design patterns commonly used in agentic AI deve
 - [Building effective agents](https://www.anthropic.com/research/building-effective-agents)
 - [Multi-agent Systems](https://langchain-ai.github.io/langgraph/concepts/multi_agent/)
 
-### [Fully Autonomous](design_patterns/full_autonomous) - Single Agent with Tools (non-graphs)
+### [Fully Autonomous](design_patterns/full_autonomous) - Single Agent with Tools (non-graph)
 - Demonstrates how a single agent can seamlessly integrate with third-party tools, such as Asana, to automate project and task management. The agent's model is allowed to operate **Full Autonomously**, provided it has the appropriate tools to perform its tasks effectively.
 - Features:
   - Fully autonomous operation (planning)
@@ -79,7 +79,7 @@ This section highlights various design patterns commonly used in agentic AI deve
 </p>
 
 
-### [Supervisor](design_patterns/supervisor) - Single Agent using other Agents as Tools (non-graphs)
+### [Supervisor](design_patterns/supervisor) - Single Agent using other Agents as Tools (non-graph)
 
 - Demonstrates how to build a call center chat application using a Supervisor-based single-agent design pattern, using agents as tools within its reasoning cycle. This approach is similar to the Fully Autonomous agent mentioned earlier.
 - Use Case:

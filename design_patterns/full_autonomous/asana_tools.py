@@ -41,7 +41,7 @@ class AsanaTools:
 
     def create_project(self, project_name: str) -> AsanaProject:
         """
-        Creates a projects by name.
+        Creates a project by name.
 
         Example call: create_project("Test Project")
         
